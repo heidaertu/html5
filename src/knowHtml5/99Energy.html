@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>My First JavaScript</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+    var numOrString1 = "3" * "4";
+    document.write(numOrString1);
+
+    var numOrString2 = "3" + "4";
+    document.write(numberOrString2);
+</script>
+<script>
+    var scoops = 10;
+    while (scoops > 0) {
+        alert("More icecream!");
+        --scoops;
+    }
+    alert("No icecream!");
+</script>
+<script>
+    for (scoops = 10; scoops > 0; --scoops) {
+        alert("More icecream~~~~~~");
+    }
+</script>
+
+<script>
+
+    // substitute your favorite drink below
+    var drink = "Energy Drink";
+    var lyrics = "";
+    var cans = 99;
+    while (cans > 0) {
+    lyrics += cans + " cans of " + drink + " on the wall <br>";
+    lyrics = lyrics + cans + " cans of " + drink + "<br>";
+    lyrics = lyrics + "Take one down, pass it around, <br>";
+    if (cans > 1) {
+    lyrics = lyrics + (cans-1) + " cans of " + drink + " on the wall <br>";
+    }
+    else {
+    lyrics = lyrics + "No more cans of " + drink + " on the wall <br>";
+    }
+    --cans;
+    }
+    document.write(lyrics);
+</script>
+</body>
+</html>
