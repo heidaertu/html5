@@ -8,13 +8,34 @@ var ShanghaiCoords = {
     longitude: 121.38
 };
 
+var map;
+var watchId = null;
+
 window.onload = getMyLocation;
 
 function getMyLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(displayLocation, displayError);
+     //   navigator.geolocation.getCurrentPosition(displayLocation, displayError);
+
+        var watchButton = document.getElementById("watch");
+        watchButton.onclick = watchLocation;
+
+        var clearWatchButton = document.getElementById("clearWatch");
+        clearWatchButton.onclick = clearWatch;
+
     } else {
         alert("Oops, no geolocation support.");
+    }
+}
+
+function watchLocation() {
+    watchId = navigator.geolocation.watchPosition(displayLocation, displayError);
+}
+
+function clearWatch() {
+    if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
     }
 }
 
@@ -24,6 +45,7 @@ function displayLocation(position) {
 
     var div = document.getElementById("location");
     div.innerHTML = "You are at Latitude : " + latitude + ", longtitude: " + longitude;
+    div.innerHTML += " (with " + position.coords.accuracy + " meters accuracy)";
 
     var km = computeDistance(position.coords, TokyoCoords);
     var distance = document.getElementById("distance");
@@ -31,7 +53,9 @@ function displayLocation(position) {
 
     km = computeDistance(position.coords, ShanghaiCoords);
     distance = document.getElementById("distance");
-    distance.innerHTML += "Distance between our house & Shanghai: " + km + " km";
+    distance.innerHTML += "Distance between our house & Shanghai: " + km + " km <br>";
+
+   // showMap(position.coords);
 
 }
 
@@ -67,4 +91,15 @@ function computeDistance(startCoords, destCoords) {
     + Math.cos(startLatRads) * Math.cos(destLatRads)
     * Math.cos(startLongRads - destLongRads)) * Radius;
     return distance;
+}
+
+function showMap(coords) {
+    var googleLatAndLong = new google.maps.LatLng(coords.latitude, coords.longitude);
+    var mapOptions = {
+        zoom: 10,
+        center: googleLatAndLong,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var mapDiv = document.getElementById("map");
+    map = new google.maps.Map(mapDiv, mapOptions);
 }
